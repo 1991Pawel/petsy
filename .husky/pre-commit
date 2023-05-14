@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo '🚀 Styling, testing and building  project before committing'
+
+npm run check-types || (
+    echo '❌ Failed type check.'
+    false;
+)
+
+npm run check-format || (
+    echo '❌ Prettier check failed.'
+    false;
+)
+
+echo '🚀 Trying to build'
+
+npm run build || (
+    echo '❌ Next build failed.'
+)
