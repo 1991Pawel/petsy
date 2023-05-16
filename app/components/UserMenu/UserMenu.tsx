@@ -1,7 +1,16 @@
 "use client";
 import { AiOutlineMenu } from "react-icons/ai";
+import { Avatar } from "../Avatar/Avatar";
+import { useCallback, useState } from "react";
+import { MenuItem } from "../Navbar/MenuItem/MenuItem";
 
 export const UserMenu = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleOpen = useCallback(() => {
+        setIsOpen(prev => !prev);
+    }, [isOpen]);
+
     return (
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
@@ -9,22 +18,39 @@ export const UserMenu = () => {
                     Airbnb your home
                 </div>
                 <div
-                    className="           
-             md:py-1
+                    onClick={toggleOpen}
+                    className="    
+            p-4    
+            md:px-2   
+            md:py-1
             md:px-2border-[1px]
-            border-nautral-200
+            border-[1px]
+            border-neutral-200
             flex
             flex-row
             items-center
+            rounded-full
             gap-3
             cursor-pointer
             hover:shadow-md
             transition"
                 >
                     <AiOutlineMenu />
-                    <div className="hidden md:block">Avatar</div>
+                    <div className="hidden md:block">
+                        <Avatar />
+                    </div>
                 </div>
             </div>
+            {isOpen && (
+                <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-wihte overflow-hidden right-0 top-12 text-sm">
+                    <div className="flex flex-col cursor-pointer">
+                        <>
+                            <MenuItem onClick={() => {}} label="Login" />
+                            <MenuItem onClick={() => {}} label="Sign up" />
+                        </>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

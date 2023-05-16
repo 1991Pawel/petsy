@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Nunito } from "next/font/google";
 import { Navbar } from "./components/Navbar/Navbar";
+import { Modal } from "./components/Modal/Modal";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={font.className}>
                 <Navbar />
+                {/* <Modal actionLabel="Submit" title="lorem5" isOpen /> */}
                 <div className="antialiased">{children}</div>
             </body>
         </html>

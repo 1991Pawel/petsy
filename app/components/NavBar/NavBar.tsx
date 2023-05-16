@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { Container } from "../Container/Container";
 import { Logo } from "./Logo/Logo";
 import { Search } from "./Search/Search";
