@@ -16,8 +16,8 @@ const classes = {
     base: "relative rounded-lg hover:opacity-80 transiton w-full ",
     disabled: "cursor-not-allowe disabled:opacity-70",
     size: {
-        small: "py-1 py-1 text-sm font-light border-[1px]",
-        normal: "py-3 text-md font-semibold border-2",
+        small: "py-1 py-1 text-sm font-light",
+        normal: "py-3 text-md font-semibold",
     },
     variant: {
         primary: "bg-rose-500 bg-rose-500 text-white",
