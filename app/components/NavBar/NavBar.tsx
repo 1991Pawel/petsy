@@ -4,8 +4,19 @@ import { Container } from "../Container/Container";
 import { Logo } from "./Logo/Logo";
 import { Search } from "./Search/Search";
 import { UserMenu } from "../UserMenu/UserMenu";
+import { useEffect } from "react";
+import { useQuery, gql } from "@apollo/client";
 
 export const Navbar = () => {
+    const { loading, error, data } = useQuery(gql`
+        query GetProductsList {
+            products {
+                name
+            }
+        }
+    `);
+
+    console.log(data, "DANE");
     return (
         <div className="fixed w-full bg-white z-10 shadow-sm">
             <div className="py-4 border-b-[1px]">

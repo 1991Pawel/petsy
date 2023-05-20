@@ -2,6 +2,7 @@ import { Nunito } from "next/font/google";
 import { Navbar } from "./components/Navbar/Navbar";
 import { AuthContext } from "./components/AuthContext/AuthContext";
 import "./globals.css";
+import { ApolloProvider } from "./components/ApolloProvider/ApolloProvider";
 
 interface RootLayoutProps {
     children: React.ReactNode;
@@ -19,8 +20,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <html lang="en">
             <body className={font.className}>
                 <AuthContext>
-                    <Navbar />
-                    <div className="antialiased min-h-[200%]">{children}</div>
+                    <ApolloProvider>
+                        <Navbar />
+                        <div className="antialiased min-h-[200%]">
+                            {children}
+                        </div>
+                    </ApolloProvider>
                 </AuthContext>
             </body>
         </html>
