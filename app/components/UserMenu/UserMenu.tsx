@@ -4,10 +4,11 @@ import { Avatar } from "../Avatar/Avatar";
 import { useCallback, useState } from "react";
 import { MenuItem } from "../Navbar/MenuItem/MenuItem";
 import { RegisterModal } from "../RegisterModal/RegisterModal";
-
+import { useSession, signOut } from "next-auth/react";
 export const UserMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenRegisterModal, setIsOpenRegisterModal] = useState(false);
+    const session = useSession();
 
     const toggleOpen = useCallback(() => {
         setIsOpen(prev => !prev);
@@ -53,13 +54,30 @@ export const UserMenu = () => {
             {isOpen && (
                 <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-wihte overflow-hidden right-0 top-12 text-sm">
                     <div className="flex flex-col cursor-pointer">
-                        <>
-                            <MenuItem onClick={() => {}} label="Login" />
-                            <MenuItem
-                                onClick={handleOpenRegisterModal}
-                                label="Sign up"
-                            />
-                        </>
+                        {session.status === "authenticated" ? (
+                            <>
+                                <MenuItem
+                                    onClick={() => {}}
+                                    label="Reservation"
+                                />
+                                <MenuItem onClick={() => {}} label="My trips" />
+                                <MenuItem
+                                    onClick={() => signOut()}
+                                    label="Logout"
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <MenuItem
+                                    onClick={handleOpenRegisterModal}
+                                    label="Login"
+                                />
+                                <MenuItem
+                                    onClick={handleOpenRegisterModal}
+                                    label="Sign up"
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             )}

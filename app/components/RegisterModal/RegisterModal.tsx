@@ -5,6 +5,7 @@ import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { signIn } from "next-auth/react";
 
 interface RegisterModalProps {
     isOpen?: boolean;
@@ -27,6 +28,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     const onSubmit: SubmitHandler<FieldValues> = data => {
         console.log("data", data);
         console.log("error", errors);
+        signIn();
     };
 
     return (
