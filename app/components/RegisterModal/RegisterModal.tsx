@@ -20,15 +20,27 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
         formState: { errors },
     } = useForm<FieldValues>({
         defaultValues: {
-            name: "",
             email: "",
+            password: "",
         },
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = data => {
-        console.log("data", data);
-        console.log("error", errors);
-        signIn();
+    const onSubmit: SubmitHandler<FieldValues> = async data => {
+        console.log(data, "D");
+        try {
+            const res = await signIn("credentials", {
+                email: data.email,
+                password: data.password,
+                redirect: false,
+            });
+            if (res?.ok) {
+                onClose();
+            }
+        } catch (error) {
+            console.error("Wystąpił błąd podczas logowania:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
