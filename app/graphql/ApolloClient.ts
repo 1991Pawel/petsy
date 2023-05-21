@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
+console.log("process", process.env);
 export const apolloClient = new ApolloClient({
-    uri: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clg5f02p205gj01tfcmg0dyo4/master",
+    uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
     cache: new InMemoryCache(),
 });
