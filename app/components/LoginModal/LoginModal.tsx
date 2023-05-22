@@ -5,22 +5,14 @@ import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { gql, useMutation } from "@apollo/client";
+import { signIn } from "next-auth/react";
 
-interface RegisterModalProps {
+interface LoginModalProps {
     isOpen?: boolean;
     onClose: () => void;
 }
 
-// const CREATE_ACCOUNT = gql`
-//     mutation CreateAccount($email: String!, $password: String!) {
-//         createAccount(data: { email: $email, password: $password }) {
-//             id
-//         }
-//     }
-// `;
-
-export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
+export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     const [loading, setLoading] = useState(false);
 
     const {
@@ -35,18 +27,19 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     });
 
     const onSubmit: SubmitHandler<FieldValues> = async data => {
+        setLoading(true);
         try {
-            const response = await fetch("/api/signup", {
-                method: "POST",
-                body: JSON.stringify({
-                    data,
-                }),
+            const request = await signIn("credentials", {
+                ...data,
+                redirect: false,
             });
-            if (!response.ok) {
-                alert("Coś poszło nie tak");
+
+            if (request?.ok) {
+                onClose();
             }
-        } catch (error) {
-            console.log(error);
+        } catch {
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -57,7 +50,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                 className="flex flex-col flex-colrounded-t justify-center relative  w-full"
             >
                 <div className="p-6 border-b-[1px]">
-                    <h2 className="text-center font-bold">Zarejestruj się</h2>
+                    <h2 className="text-center font-bold">Zaloguj się</h2>
                 </div>
                 <div className="p-6">
                     <div className="mb-5">
@@ -85,7 +78,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                         <Button
                             disabled={loading}
                             onClick={handleSubmit(onSubmit)}
-                            label={"Zarejestruj się"}
+                            label={"Zaloguj się"}
                         />
                     </div>
                 </div>

@@ -14,20 +14,13 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { email, password } = body.data;
     const passwordHasz = await bcrypt.hash(password, 12);
-    console.log(email, passwordHasz);
 
-    try {
-        const user = await apolloClient.mutate({
-            variables: {
-                email: email,
-                password: passwordHasz,
-            },
-            mutation: CREATE_ACCOUNT,
-        });
-    } catch (error) {
-        throw new Error("error");
-    }
-
-    // console.log(user);
-    return new Response("ok");
+    const user = await apolloClient.mutate({
+        variables: {
+            email: email,
+            password: passwordHasz,
+        },
+        mutation: CREATE_ACCOUNT,
+    });
+    return new Response(JSON.stringify(user));
 }

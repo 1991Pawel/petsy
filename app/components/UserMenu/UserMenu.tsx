@@ -4,10 +4,12 @@ import { Avatar } from "../Avatar/Avatar";
 import { useCallback, useState } from "react";
 import { MenuItem } from "../Navbar/MenuItem/MenuItem";
 import { RegisterModal } from "../RegisterModal/RegisterModal";
-import { useSession, signOut } from "next-auth/react";
+import { LoginModal } from "../LoginModal/LoginModal";
+import { useSession, signOut, signIn } from "next-auth/react";
 export const UserMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenRegisterModal, setIsOpenRegisterModal] = useState(false);
+    const [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
     const session = useSession();
 
     const toggleOpen = useCallback(() => {
@@ -19,6 +21,13 @@ export const UserMenu = () => {
     };
     const handleOpenRegisterModal = () => {
         setIsOpenRegisterModal(true);
+    };
+
+    const handleCloseLoginModal = () => {
+        setIsOpenLoginModal(false);
+    };
+    const handleOpenLoginModal = () => {
+        setIsOpenLoginModal(true);
     };
 
     return (
@@ -69,7 +78,7 @@ export const UserMenu = () => {
                         ) : (
                             <>
                                 <MenuItem
-                                    onClick={handleOpenRegisterModal}
+                                    onClick={handleOpenLoginModal}
                                     label="Login"
                                 />
                                 <MenuItem
@@ -84,6 +93,10 @@ export const UserMenu = () => {
             <RegisterModal
                 isOpen={isOpenRegisterModal}
                 onClose={handleCloseRegisterModal}
+            />
+            <LoginModal
+                isOpen={isOpenLoginModal}
+                onClose={handleCloseLoginModal}
             />
         </div>
     );
