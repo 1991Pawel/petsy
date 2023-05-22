@@ -5,15 +5,24 @@ import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { signIn } from "next-auth/react";
+import { gql, useMutation } from "@apollo/client";
 
 interface RegisterModalProps {
     isOpen?: boolean;
     onClose: () => void;
 }
 
+// const CREATE_ACCOUNT = gql`
+//     mutation CreateAccount($email: String!, $password: String!) {
+//         createAccount(data: { email: $email, password: $password }) {
+//             id
+//         }
+//     }
+// `;
+
 export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     const [loading, setLoading] = useState(false);
+    // const [createUser] = useMutation(CREATE_ACCOUNT);
     const {
         register,
         handleSubmit,
@@ -26,20 +35,15 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     });
 
     const onSubmit: SubmitHandler<FieldValues> = async data => {
-        console.log(data, "D");
         try {
-            const res = await signIn("credentials", {
-                email: data.email,
-                password: data.password,
-                redirect: false,
+            await fetch("/api/signup", {
+                method: "POST",
+                body: JSON.stringify({
+                    data,
+                }),
             });
-            if (res?.ok) {
-                onClose();
-            }
         } catch (error) {
-            console.error("Wystąpił błąd podczas logowania:", error);
-        } finally {
-            setLoading(false);
+            console.log(error);
         }
     };
 
