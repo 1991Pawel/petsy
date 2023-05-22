@@ -10,6 +10,7 @@ interface ButtonProps {
     size?: "small" | "normal";
     variant?: "primary" | "secondary" | "danger";
     icon?: IconType;
+    type?: "button" | "submit";
 }
 
 const classes = {
@@ -21,7 +22,7 @@ const classes = {
     },
     variant: {
         primary: "bg-rose-500 bg-rose-500 text-white",
-        secondary: "bg-wihte bg-rose-500",
+        secondary: "bg-wihte border-2 border-rose-500",
         danger: "bg-red-500 hover:bg-red-800 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white",
     },
 };
@@ -32,9 +33,11 @@ export const Button = ({
     disabled = false,
     size = "normal",
     variant = "primary",
+    type = "button",
     icon: Icon,
 }: ButtonProps) => (
     <button
+        type={type}
         onClick={onClick}
         disabled={disabled}
         className={cls(`

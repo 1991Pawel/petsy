@@ -6,19 +6,13 @@ import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
+import { signIn } from "next-auth/react";
+import { AiFillGithub } from "react-icons/ai";
 
 interface RegisterModalProps {
     isOpen?: boolean;
     onClose: () => void;
 }
-
-// const CREATE_ACCOUNT = gql`
-//     mutation CreateAccount($email: String!, $password: String!) {
-//         createAccount(data: { email: $email, password: $password }) {
-//             id
-//         }
-//     }
-// `;
 
 export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     const [loading, setLoading] = useState(false);
@@ -81,7 +75,17 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                         />
                     </div>
 
-                    <div className="w-full">
+                    <div className="w-full mb-5">
+                        <Button
+                            type="button"
+                            disabled={loading}
+                            onClick={() => signIn("github")}
+                            label={"Zarejestruj się Github"}
+                            variant="secondary"
+                            icon={AiFillGithub}
+                        />
+                    </div>
+                    <div className="w-full ">
                         <Button
                             disabled={loading}
                             onClick={handleSubmit(onSubmit)}

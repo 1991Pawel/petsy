@@ -1,8 +1,10 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { ApolloQueryResult, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
+import GitHubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
 import { apolloClient } from "@/app/graphql/ApolloClient";
+
 const GET_ACCOUNT_BY_EMAIL = gql`
     query GetAccountByEmail($email: String!) {
         account(where: { email: $email }, stage: DRAFT) {
@@ -15,6 +17,10 @@ const GET_ACCOUNT_BY_EMAIL = gql`
 
 const handler = NextAuth({
     providers: [
+        GitHubProvider({
+            clientId: process.env.GITHUB_ID as string,
+            clientSecret: process.env.GITHUB_SECRET as string,
+        }),
         CredentialsProvider({
             name: "Credentials",
 
