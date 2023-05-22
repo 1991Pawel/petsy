@@ -2,17 +2,6 @@
 import { IconType } from "react-icons";
 import { cls } from "@/utils/helpers";
 
-interface ButtonProps {
-    label: string;
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    disabled?: boolean;
-    outline?: boolean;
-    size?: "small" | "normal";
-    variant?: "primary" | "secondary" | "danger";
-    icon?: IconType;
-    type?: "button" | "submit";
-}
-
 const classes = {
     base: "relative rounded-lg hover:opacity-80 transiton w-full ",
     disabled: "cursor-not-allowe disabled:opacity-70",
@@ -26,6 +15,17 @@ const classes = {
         danger: "bg-red-500 hover:bg-red-800 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white",
     },
 };
+
+interface ButtonProps {
+    label: string;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    disabled?: boolean;
+    outline?: boolean;
+    size?: "small" | "normal";
+    variant?: "primary" | "secondary" | "danger";
+    icon?: IconType;
+    type?: "button" | "submit";
+}
 
 export const Button = ({
     label,
