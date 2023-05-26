@@ -13,22 +13,16 @@ export const UserMenu = () => {
     const [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
     const session = useSession();
 
-    const toggleOpen = useCallback(() => {
+    const toggleUserMenu = useCallback(() => {
         setIsOpen(prev => !prev);
     }, [isOpen]);
 
-    const handleCloseRegisterModal = () => {
-        setIsOpenRegisterModal(false);
-    };
-    const handleOpenRegisterModal = () => {
-        setIsOpenRegisterModal(true);
+    const toggleRegisterModal = () => {
+        setIsOpenRegisterModal(prevState => !prevState);
     };
 
-    const handleCloseLoginModal = () => {
-        setIsOpenLoginModal(false);
-    };
-    const handleOpenLoginModal = () => {
-        setIsOpenLoginModal(true);
+    const toggleLoginModal = () => {
+        setIsOpenLoginModal(prevState => !prevState);
     };
 
     return (
@@ -38,7 +32,7 @@ export const UserMenu = () => {
                     Airbnb your home
                 </div>
                 <div
-                    onClick={toggleOpen}
+                    onClick={toggleUserMenu}
                     className="    
             p-4    
             md:px-2   
@@ -64,7 +58,7 @@ export const UserMenu = () => {
             {isOpen && (
                 <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-wihte overflow-hidden right-0 top-12 text-sm">
                     <div
-                        onClick={toggleOpen}
+                        onClick={toggleUserMenu}
                         className="flex flex-col cursor-pointer"
                     >
                         {session.status === "authenticated" ? (
@@ -86,13 +80,13 @@ export const UserMenu = () => {
                             <>
                                 <MenuItem
                                     onClick={() => {
-                                        handleOpenLoginModal();
+                                        toggleLoginModal();
                                     }}
                                     label="Zaloguj"
                                 />
                                 <MenuItem
                                     onClick={() => {
-                                        handleOpenRegisterModal();
+                                        toggleRegisterModal();
                                     }}
                                     label="Zarejestruj się"
                                 />
@@ -103,12 +97,9 @@ export const UserMenu = () => {
             )}
             <RegisterModal
                 isOpen={isOpenRegisterModal}
-                onClose={handleCloseRegisterModal}
+                onClose={toggleRegisterModal}
             />
-            <LoginModal
-                isOpen={isOpenLoginModal}
-                onClose={handleCloseLoginModal}
-            />
+            <LoginModal isOpen={isOpenLoginModal} onClose={toggleLoginModal} />
         </div>
     );
 };

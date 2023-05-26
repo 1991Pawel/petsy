@@ -14,16 +14,13 @@ const GET_HOTELS = gql`
         }
     }
 `;
-interface Image {
-    url: string;
-}
 
 interface HotelCardProps {
     id: string;
     name: string;
     address: string;
     description: string;
-    image: Image;
+    image: { url: string };
 }
 
 const HotelCard = ({
