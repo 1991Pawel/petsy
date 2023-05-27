@@ -2,6 +2,7 @@ query getHotels {
     hotels {
         image {
             url
+            id
         }
         id
         name
