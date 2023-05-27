@@ -1,0 +1,14 @@
+query getHotels {
+    hotels {
+        image {
+            url
+        }
+        id
+        name
+        address
+        description
+    }
+    reviews {
+        rating
+    }
+}
