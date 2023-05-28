@@ -1,5 +1,5 @@
 "use client";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Container } from "../.././components/Container/Container";
 import { GetHotelByIdDocument } from "@/app/generated/graphql";
 
