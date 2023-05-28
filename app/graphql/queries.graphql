@@ -13,3 +13,21 @@ query getHotels {
         rating
     }
 }
+query getHotelById($id: ID!) {
+    hotel(where: { id: $id }) {
+        name
+        description
+        id
+        address
+        image {
+            id
+            url
+        }
+    }
+}
+
+query getHotelsId {
+    hotels {
+        id
+    }
+}

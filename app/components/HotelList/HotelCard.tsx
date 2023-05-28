@@ -1,6 +1,6 @@
 import { Hotel } from "@/app/generated/graphql";
 import { truncateDescriptions } from "../../../utils/helpers";
-
+import Link from "next/link";
 interface HotelCardProps {
     image: Pick<Hotel["image"], "url">;
     description: Hotel["description"];
@@ -16,8 +16,8 @@ export const HotelCard = ({
     id,
 }: HotelCardProps) => {
     return (
-        <div
-            onClick={() => console.log(id)}
+        <Link
+            href={`/hotels/${id}`}
             className="max-w-xs bg-white rounded overflow-hidden shadow-lg"
         >
             <img
@@ -32,6 +32,6 @@ export const HotelCard = ({
                 </p>
                 <p className="text-gray-600 text-xs">{address}</p>
             </div>
-        </div>
+        </Link>
     );
 };
