@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "mutation CreateAccount($email: String!, $password: String!) {\n  createAccount(data: {email: $email, password: $password}) {\n    id\n  }\n}": types.CreateAccountDocument,
-    "query getHotels {\n  hotels {\n    image {\n      url\n      id\n    }\n    id\n    name\n    address\n    description\n  }\n  reviews {\n    rating\n  }\n}\n\nquery getHotelById($id: ID!) {\n  hotel(where: {id: $id}) {\n    name\n    description\n    id\n    address\n    image {\n      id\n      url\n    }\n  }\n}\n\nquery getHotelsId {\n  hotels {\n    id\n  }\n}": types.GetHotelsDocument,
+    "query getHotels {\n  hotels {\n    image {\n      url\n      id\n    }\n    id\n    name\n    address\n    description\n  }\n  reviews {\n    rating\n  }\n}\n\nquery getHotelById($id: ID!) {\n  hotel(where: {id: $id}) {\n    name\n    description\n    id\n    address\n    image {\n      id\n      url\n    }\n  }\n  reviews {\n    id\n    content\n    createdAt\n    rating\n    author\n  }\n}\n\nquery getHotelsId {\n  hotels {\n    id\n  }\n}": types.GetHotelsDocument,
 };
 
 /**
@@ -38,7 +38,7 @@ export function graphql(source: "mutation CreateAccount($email: String!, $passwo
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query getHotels {\n  hotels {\n    image {\n      url\n      id\n    }\n    id\n    name\n    address\n    description\n  }\n  reviews {\n    rating\n  }\n}\n\nquery getHotelById($id: ID!) {\n  hotel(where: {id: $id}) {\n    name\n    description\n    id\n    address\n    image {\n      id\n      url\n    }\n  }\n}\n\nquery getHotelsId {\n  hotels {\n    id\n  }\n}"): (typeof documents)["query getHotels {\n  hotels {\n    image {\n      url\n      id\n    }\n    id\n    name\n    address\n    description\n  }\n  reviews {\n    rating\n  }\n}\n\nquery getHotelById($id: ID!) {\n  hotel(where: {id: $id}) {\n    name\n    description\n    id\n    address\n    image {\n      id\n      url\n    }\n  }\n}\n\nquery getHotelsId {\n  hotels {\n    id\n  }\n}"];
+export function graphql(source: "query getHotels {\n  hotels {\n    image {\n      url\n      id\n    }\n    id\n    name\n    address\n    description\n  }\n  reviews {\n    rating\n  }\n}\n\nquery getHotelById($id: ID!) {\n  hotel(where: {id: $id}) {\n    name\n    description\n    id\n    address\n    image {\n      id\n      url\n    }\n  }\n  reviews {\n    id\n    content\n    createdAt\n    rating\n    author\n  }\n}\n\nquery getHotelsId {\n  hotels {\n    id\n  }\n}"): (typeof documents)["query getHotels {\n  hotels {\n    image {\n      url\n      id\n    }\n    id\n    name\n    address\n    description\n  }\n  reviews {\n    rating\n  }\n}\n\nquery getHotelById($id: ID!) {\n  hotel(where: {id: $id}) {\n    name\n    description\n    id\n    address\n    image {\n      id\n      url\n    }\n  }\n  reviews {\n    id\n    content\n    createdAt\n    rating\n    author\n  }\n}\n\nquery getHotelsId {\n  hotels {\n    id\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
