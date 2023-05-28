@@ -1,15 +1,16 @@
 "use client";
 import { useQuery } from "@apollo/client";
 import { Container } from "../.././components/Container/Container";
-import { GetHotelByIdDocument } from "@/app/generated/graphql";
+import { GetHotelByIdDocument, Review } from "@/app/generated/graphql";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { MdStar, MdStarHalf } from "react-icons/md";
+import { formatDate } from "../../../utils/helpers";
 
 interface ConntentProps {
-    content: string | null | undefined;
-    created: string;
-    rating: number;
-    author: string | null | undefined;
+    content: Review["content"];
+    createdAt: Review["createdAt"];
+    rating: Review["rating"];
+    author: Review["author"];
 }
 
 interface RatingStarsProps {
@@ -27,23 +28,18 @@ const RatingStars = ({ rating }: RatingStarsProps) => {
     );
 };
 
-const Comment = ({ content, created, rating, author }: ConntentProps) => {
-    const createdDate = new Date(created);
-    const formattedDate = new Intl.DateTimeFormat("pl-Pl").format(createdDate);
+const Comment = ({ content, createdAt, rating, author }: ConntentProps) => {
     return (
-        <div className="border border-gray-300 rounded p-4 mb-4">
+        <div className="border border-gray-300 rounded p-4 mb-4 ">
             <div className="flex items-center justify-between mb-2">
                 <div>
                     <span className="text-gray-500 text-xs">
                         Author: {author}
                     </span>
                     <span className="text-gray-500 text-xs ml-2">
-                        {formattedDate}
+                        {formatDate(createdAt)}
                     </span>
                 </div>
-                <button className="bg-blue-500 text-white rounded px-4 py-2 text-sm">
-                    Follow
-                </button>
             </div>
             <p className="text-gray-600 text-sm mb-2">{content}</p>
             <div className="flex items-center">
@@ -72,7 +68,6 @@ export default function Page({ params }: any) {
         return <p>Error: {error.message}</p>;
     }
 
-    console.log(data, "d");
     return (
         <Container>
             <div className="max-w-xl mx-auto">
@@ -101,16 +96,16 @@ export default function Page({ params }: any) {
                         Zarezerwuj
                     </button>
                 </div>
+                {reviews.map(review => (
+                    <Comment
+                        key={review.id}
+                        createdAt={review.createdAt}
+                        content={review.content}
+                        rating={review.rating}
+                        author={review.author}
+                    />
+                ))}
             </div>
-            {reviews.map(review => (
-                <Comment
-                    key={review.id}
-                    created={review.createdAt}
-                    content={review.content}
-                    rating={review.rating}
-                    author={review.author}
-                />
-            ))}
         </Container>
     );
 }

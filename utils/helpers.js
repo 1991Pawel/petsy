@@ -13,3 +13,8 @@ export const truncateDescriptions = (description, limit = 100) => {
         return description.substring(0, limit) + "...";
     }
 };
+
+export const formatDate = created => {
+    const createdDate = new Date(created);
+    return new Intl.DateTimeFormat("pl-Pl").format(createdDate);
+};
