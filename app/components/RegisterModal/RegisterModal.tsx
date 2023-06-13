@@ -5,7 +5,6 @@ import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { gql, useMutation } from "@apollo/client";
 import { signIn } from "next-auth/react";
 import { AiFillGithub } from "react-icons/ai";
 

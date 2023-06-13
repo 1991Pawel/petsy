@@ -1,0 +1,40 @@
+query getHotels {
+    hotels {
+        image {
+            url
+            id
+        }
+        id
+        name
+        address
+        description
+    }
+    reviews {
+        rating
+    }
+}
+query getHotelById($id: ID!) {
+    hotel(where: { id: $id }) {
+        name
+        description
+        id
+        address
+        image {
+            id
+            url
+        }
+    }
+    reviews {
+        id
+        content
+        createdAt
+        rating
+        author
+    }
+}
+
+query getHotelsId {
+    hotels {
+        id
+    }
+}

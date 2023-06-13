@@ -22,7 +22,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <AuthContext>
                     <ApolloProvider>
                         <Navbar />
-                        <div className="antialiased min-h-[200%]">
+                        <div className="pt-[100px] antialiased min-h-[200%]">
                             {children}
                         </div>
                     </ApolloProvider>

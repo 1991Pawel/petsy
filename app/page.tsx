@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Container } from "./components/Container/Container";
 import { HotelList } from "./components/HotelList/HotelList";
 
