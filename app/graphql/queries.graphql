@@ -38,3 +38,21 @@ query getHotelsId {
         id
     }
 }
+
+fragment reviewContent on Review {
+    content
+    rating
+    id
+    author
+    creationDate
+}
+
+query GetReviewsForHotelID($id: ID!) {
+    hotels(where: { id: $id }) {
+        id
+        name
+        review {
+            ...reviewContent
+        }
+    }
+}

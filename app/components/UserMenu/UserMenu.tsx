@@ -12,6 +12,7 @@ export const UserMenu = () => {
     const [isOpenRegisterModal, setIsOpenRegisterModal] = useState(false);
     const [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
     const session = useSession();
+    console.log(session, "session");
 
     const toggleUserMenu = useCallback(() => {
         setIsOpen(prev => !prev);

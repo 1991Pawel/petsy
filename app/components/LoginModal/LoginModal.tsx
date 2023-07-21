@@ -34,10 +34,14 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 redirect: false,
             });
 
-            if (request?.ok) {
-                onClose();
+            console.log(request, "request");
+
+            if (request?.error) {
+                throw new Error("Błąd logowania");
             }
-        } catch {
+            onClose();
+        } catch (error) {
+            alert(error);
         } finally {
             setLoading(false);
         }
@@ -76,8 +80,8 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
                     <div className="w-full">
                         <Button
+                            type="submit"
                             disabled={loading}
-                            onClick={handleSubmit(onSubmit)}
                             label={"Zaloguj się"}
                         />
                     </div>
