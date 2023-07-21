@@ -2,11 +2,8 @@ import { formatDate } from "../../../utils/helpers";
 import { ReviewContentFragment } from "@/app/generated/graphql";
 import { RatingStars } from "../RatingStars/RatringStars";
 
-// interface HotelReviewItemProps {
-//     review: ReviewContentFragment;
-// }
-
 export const HotelReviewItem = ({ review }: any) => {
+    console.log(review);
     return (
         <div className="border border-gray-300 rounded p-4 mb-4 ">
             <div className="flex items-center justify-between mb-2">
@@ -15,7 +12,7 @@ export const HotelReviewItem = ({ review }: any) => {
                         Author: {review.author}
                     </span>
                     <span className="text-gray-500 text-xs ml-2">
-                        {formatDate(review.creationDate)}
+                        {formatDate(review.createdAt)}
                     </span>
                 </div>
             </div>

@@ -4,7 +4,6 @@ import { useQuery } from "@apollo/client";
 import {
     GetReviewsForHotelIdDocument,
     GetReviewsForHotelIdQuery,
-    GetReviewsForHotelIdQueryVariables,
 } from "@/app/generated/graphql";
 import { HotelReviewItem } from "@/app/components/HotelReviewItem/HotelReviewItem";
 
@@ -13,11 +12,14 @@ interface HotelReviewListProps {
 }
 
 export const HotelReviewList = ({ hotelID }: HotelReviewListProps) => {
-    const { loading, error, data } = useQuery(GetReviewsForHotelIdDocument, {
-        variables: { id: hotelID },
-    });
+    const { loading, error, data } = useQuery<GetReviewsForHotelIdQuery>(
+        GetReviewsForHotelIdDocument,
+        {
+            variables: { id: hotelID },
+        }
+    );
 
-    const reviews = data?.hotels[0].review;
+    const reviews = data?.hotel?.review;
 
     if (!reviews) {
         return null;
@@ -34,8 +36,7 @@ export const HotelReviewList = ({ hotelID }: HotelReviewListProps) => {
     return (
         <div>
             {reviews.map(review => (
-                // <HotelReviewItem key={review.id} review={review} />
-                <div>{JSON.stringify(review)}</div>
+                <HotelReviewItem key={review.id} review={review} />
             ))}
         </div>
     );

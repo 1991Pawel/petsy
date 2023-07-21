@@ -15,6 +15,7 @@ export const truncateDescriptions = (description, limit = 100) => {
 };
 
 export const formatDate = created => {
+    if (!created) return;
     const createdDate = new Date(created);
     return new Intl.DateTimeFormat("pl-Pl").format(createdDate);
 };
