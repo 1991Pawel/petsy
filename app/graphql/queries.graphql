@@ -48,7 +48,7 @@ fragment reviewContent on Review {
 }
 
 query GetReviewsForHotelID($id: ID!) {
-    hotel(where: { id: $id }) {
+    hotel(where: { id: $id }, stage: DRAFT) {
         id
         name
         review {

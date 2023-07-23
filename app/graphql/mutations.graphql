@@ -3,3 +3,8 @@ mutation CreateAccount($email: String!, $password: String!) {
         id
     }
 }
+mutation CreateHotelReview($review: ReviewCreateInput!) {
+    review: createReview(data: $review) {
+        id
+    }
+}

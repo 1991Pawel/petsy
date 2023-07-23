@@ -52,13 +52,13 @@ export default function Page({ params }: any) {
                 </div>
                 <HotelReviewList hotelID={params.id} />
                 //need to change in graphcms to required field
-                {hotel.name && (
+                {/* {hotel.name && (
                     <ReviewModal
-                        hotelName={hotel.name}
+                        hotel={hotel}
                         onClose={() => console.log("close")}
                         isOpen={true}
                     />
-                )}
+                )} */}
             </div>
         </Container>
     );

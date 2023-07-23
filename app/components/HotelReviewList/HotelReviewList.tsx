@@ -15,7 +15,7 @@ export const HotelReviewList = ({ hotelID }: HotelReviewListProps) => {
     const { loading, error, data } = useQuery<GetReviewsForHotelIdQuery>(
         GetReviewsForHotelIdDocument,
         {
-            variables: { id: hotelID },
+            variables: { id: hotelID, stage: "draft" },
         }
     );
 
