@@ -33,6 +33,8 @@ export const HotelReviewList = ({ hotelID }: HotelReviewListProps) => {
         return <p>Error: {error.message}</p>;
     }
 
+    console.log(data);
+
     return (
         <div>
             {reviews.map(review => (

@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { Container } from "../.././components/Container/Container";
 import { GetHotelByIdDocument } from "@/app/generated/graphql";
 import { HotelReviewList } from "@/app/components/HotelReviewList/HotelReviewList";
+import { ReviewModal } from "@/app/components/ReviewModal/ReviewModal";
 
 export default function Page({ params }: any) {
     const { loading, error, data } = useQuery(GetHotelByIdDocument, {
@@ -50,6 +51,14 @@ export default function Page({ params }: any) {
                     </button>
                 </div>
                 <HotelReviewList hotelID={params.id} />
+                //need to change in graphcms to required field
+                {hotel.name && (
+                    <ReviewModal
+                        hotelName={hotel.name}
+                        onClose={() => console.log("close")}
+                        isOpen={true}
+                    />
+                )}
             </div>
         </Container>
     );
