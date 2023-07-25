@@ -1,14 +1,42 @@
 "use client";
 import { useQuery } from "@apollo/client";
 import { Container } from "../.././components/Container/Container";
-import { GetHotelByIdDocument } from "@/app/generated/graphql";
+import {
+    GetHotelByIdDocument,
+    GetHotelByIdQuery,
+    GetReviewsForHotelIdDocument,
+    GetReviewsForHotelIdQuery,
+} from "@/app/generated/graphql";
 import { HotelReviewList } from "@/app/components/HotelReviewList/HotelReviewList";
 import { ReviewModal } from "@/app/components/ReviewModal/ReviewModal";
+import { useState } from "react";
 
-export default function Page({ params }: any) {
-    const { loading, error, data } = useQuery(GetHotelByIdDocument, {
-        variables: { id: params.id },
-    });
+type PageProps = {
+    params: {
+        id: string;
+    };
+};
+
+export default function Page({ params }: PageProps) {
+    const { id: hotelID } = params;
+    const [reviewModal, setReviewModal] = useState(false);
+  
+    const { loading: reviewsLoading, error: reviewsError, data: reviewsData } = useQuery<GetReviewsForHotelIdQuery>(
+        GetReviewsForHotelIdDocument,
+        {
+          variables: { id: hotelID, stage: "draft" },
+        }
+      );
+      const reviews = reviewsData?.hotel?.review;
+
+    const { loading, error, data } = useQuery<GetHotelByIdQuery>(
+        GetHotelByIdDocument,
+        {
+            variables: { id: hotelID },
+        }
+    );
+
+
     if (!data || !data.hotel) {
         return null;
     }
@@ -43,22 +71,22 @@ export default function Page({ params }: any) {
                         {hotel.address}
                     </p>
                     <p className="text-gray-600 text-sm mb-4">ID: {hotel.id}</p>
-                    <button
-                        onClick={() => console.log("Zarezerwuj", hotel.id)}
+                  
+                </div>
+                {reviews && <HotelReviewList reviews={reviews} />}
+                <ReviewModal
+                    hotel={hotel}
+                    onClose={() => setReviewModal(false)}
+                    isOpen={reviewModal}
+                />
+              
+                <button
+                        onClick={() => setReviewModal(true)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     >
-                        Zarezerwuj
+                        Dodaj komentarz
                     </button>
-                </div>
-                <HotelReviewList hotelID={params.id} />
-                //need to change in graphcms to required field
-                {/* {hotel.name && (
-                    <ReviewModal
-                        hotel={hotel}
-                        onClose={() => console.log("close")}
-                        isOpen={true}
-                    />
-                )} */}
+               
             </div>
         </Container>
     );

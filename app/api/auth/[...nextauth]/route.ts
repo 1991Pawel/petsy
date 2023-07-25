@@ -32,7 +32,7 @@ const handler = NextAuth({
                 password: { label: "Password", type: "password" },
             },
 
-            async authorize(credentials, req) {
+            async authorize(credentials) {
                 if (!credentials) {
                     return null;
                 }
@@ -56,7 +56,7 @@ const handler = NextAuth({
                 if (!arePasswordEqual) {
                     return null;
                 }
-                //
+                
                 return userByEmail.data.account;
             },
         }),

@@ -58,6 +58,7 @@ query GetReviewsForHotelID($id: ID!) {
                 content
                 author
                 publishedAt
+                rating
             }
         }
     }

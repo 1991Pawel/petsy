@@ -1,9 +1,7 @@
 import { formatDate } from "../../../utils/helpers";
-import { ReviewContentFragment } from "@/app/generated/graphql";
 import { RatingStars } from "../RatingStars/RatringStars";
 
 export const HotelReviewItem = ({ review }: any) => {
-    console.log(review);
     return (
         <div className="border border-gray-300 rounded p-4 mb-4 ">
             <div className="flex items-center justify-between mb-2">

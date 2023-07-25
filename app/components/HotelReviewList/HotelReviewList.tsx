@@ -2,39 +2,16 @@
 
 import { useQuery } from "@apollo/client";
 import {
-    GetReviewsForHotelIdDocument,
-    GetReviewsForHotelIdQuery,
+    ReviewContentFragment
 } from "@/app/generated/graphql";
 import { HotelReviewItem } from "@/app/components/HotelReviewItem/HotelReviewItem";
 
 interface HotelReviewListProps {
-    hotelID: string;
+    reviews: ReviewContentFragment[];
 }
 
-export const HotelReviewList = ({ hotelID }: HotelReviewListProps) => {
-    const { loading, error, data } = useQuery<GetReviewsForHotelIdQuery>(
-        GetReviewsForHotelIdDocument,
-        {
-            variables: { id: hotelID, stage: "draft" },
-        }
-    );
 
-    const reviews = data?.hotel?.review;
-
-    if (!reviews) {
-        return null;
-    }
-
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>Error: {error.message}</p>;
-    }
-
-    console.log(data);
-
+export const HotelReviewList = ({ reviews }:HotelReviewListProps) => {
     return (
         <div>
             {reviews.map(review => (

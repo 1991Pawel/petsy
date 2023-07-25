@@ -1,23 +1,30 @@
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { useForm, FieldValues  } from "react-hook-form";
 import { Modal } from "../Modal/Modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
+import { GetHotelByIdQuery } from "@/app/generated/graphql";
 import {
     CreateHotelReviewMutationVariables,
     CreateHotelReviewDocument,
 } from "@/app/generated/graphql";
 import { apolloClient } from "@/app/graphql/ApolloClient";
 import { useSession } from "next-auth/react";
-
+import { ReviewStars } from "../ReviewStars/ReviewStars";
+type HotelType = GetHotelByIdQuery["hotel"];
 interface ReviewModalProps {
     isOpen?: boolean;
     onClose: () => void;
-    hotelName: string;
-    hotel: any;
+    hotel: HotelType;
+}
+
+interface addReviewType {
+    onClose: ReviewModalProps["onClose"];
+    data: any;
 }
 
 export const ReviewModal = ({ isOpen, onClose, hotel }: ReviewModalProps) => {
+    if (!hotel) return null;
     const [stars, setStars] = useState(0);
     const [loading, setLoading] = useState(false);
     const session = useSession();
@@ -27,26 +34,38 @@ export const ReviewModal = ({ isOpen, onClose, hotel }: ReviewModalProps) => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<FieldValues>();
+    } = useForm<FieldValues>({
+        defaultValues: {
+            review: "",
+        },
+    });
 
-    // const addReview = async ({ review }: any) => {
-    const addReview = async () => {
-        const data =
-            await apolloClient.mutate<CreateHotelReviewMutationVariables>({
-                mutation: CreateHotelReviewDocument,
-                variables: {
-                    review: {
-                        rating: 5,
-                        author: session.data?.user.email,
-                        content: "",
-                        hotel: {
-                            connect: {
-                                id: hotel.id,
+    const handleSetStars = (star: number) => {
+        setStars(star);
+    };
+    const addReview = async ({  review }: any) => {
+        try {
+                await apolloClient.mutate<CreateHotelReviewMutationVariables>({
+                    mutation: CreateHotelReviewDocument,
+                    variables: {
+                        review: {
+                            rating: stars,
+                            author: session.data?.user.email,
+                            content: review,
+                            hotel: {
+                                connect: {
+                                    id: hotel.id,
+                                },
                             },
                         },
                     },
-                },
-            });
+                });
+        } catch (error) {
+            console.error("Wystąpił błąd podczas dodawania recenzji:", error);
+        } finally {
+            onClose();
+            setStars(0)
+        }
     };
 
     // const onSubmit: SubmitHandler<FieldValues> = async data => {
@@ -86,7 +105,11 @@ export const ReviewModal = ({ isOpen, onClose, hotel }: ReviewModalProps) => {
                             required
                         />
                     </div>
-
+                    twoja ocena
+                    <ReviewStars
+                        handleSetStars={handleSetStars}
+                        rating={stars}
+                    />
                     <div className="w-full ">
                         <Button
                             disabled={loading}
