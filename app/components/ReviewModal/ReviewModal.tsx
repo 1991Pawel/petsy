@@ -1,4 +1,4 @@
-import { useForm, FieldValues  } from "react-hook-form";
+import { useForm, FieldValues } from "react-hook-form";
 import { Modal } from "../Modal/Modal";
 import { useState } from "react";
 import { Input } from "../Input/Input";
@@ -16,19 +16,23 @@ interface ReviewModalProps {
     isOpen?: boolean;
     onClose: () => void;
     hotel: HotelType;
+    refetchReviews: () => void;
 }
 
 interface addReviewType {
     onClose: ReviewModalProps["onClose"];
-    data: any;
 }
 
-export const ReviewModal = ({ isOpen, onClose, hotel }: ReviewModalProps) => {
+export const ReviewModal = ({
+    isOpen,
+    onClose,
+    hotel,
+    refetchReviews,
+}: ReviewModalProps) => {
     if (!hotel) return null;
     const [stars, setStars] = useState(0);
     const [loading, setLoading] = useState(false);
     const session = useSession();
-    console.log(session.data?.user.email, "session in review modal");
 
     const {
         register,
@@ -43,28 +47,29 @@ export const ReviewModal = ({ isOpen, onClose, hotel }: ReviewModalProps) => {
     const handleSetStars = (star: number) => {
         setStars(star);
     };
-    const addReview = async ({  review }: any) => {
+    const addReview = async ({ review }: any) => {
         try {
-                await apolloClient.mutate<CreateHotelReviewMutationVariables>({
-                    mutation: CreateHotelReviewDocument,
-                    variables: {
-                        review: {
-                            rating: stars,
-                            author: session.data?.user.email,
-                            content: review,
-                            hotel: {
-                                connect: {
-                                    id: hotel.id,
-                                },
+            await apolloClient.mutate<CreateHotelReviewMutationVariables>({
+                mutation: CreateHotelReviewDocument,
+                variables: {
+                    review: {
+                        rating: stars,
+                        author: session.data?.user.email,
+                        content: review,
+                        hotel: {
+                            connect: {
+                                id: hotel.id,
                             },
                         },
                     },
-                });
+                },
+            });
         } catch (error) {
             console.error("Wystąpił błąd podczas dodawania recenzji:", error);
         } finally {
             onClose();
-            setStars(0)
+            setStars(0);
+            refetchReviews();
         }
     };
 

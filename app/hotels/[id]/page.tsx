@@ -20,14 +20,16 @@ type PageProps = {
 export default function Page({ params }: PageProps) {
     const { id: hotelID } = params;
     const [reviewModal, setReviewModal] = useState(false);
-  
-    const { loading: reviewsLoading, error: reviewsError, data: reviewsData } = useQuery<GetReviewsForHotelIdQuery>(
-        GetReviewsForHotelIdDocument,
-        {
-          variables: { id: hotelID, stage: "draft" },
-        }
-      );
-      const reviews = reviewsData?.hotel?.review;
+
+    const {
+        loading: reviewsLoading,
+        error: reviewsError,
+        data: reviewsData,
+        refetch: refetchReviews,
+    } = useQuery<GetReviewsForHotelIdQuery>(GetReviewsForHotelIdDocument, {
+        variables: { id: hotelID, stage: "draft" },
+    });
+    const reviews = reviewsData?.hotel?.review;
 
     const { loading, error, data } = useQuery<GetHotelByIdQuery>(
         GetHotelByIdDocument,
@@ -35,7 +37,6 @@ export default function Page({ params }: PageProps) {
             variables: { id: hotelID },
         }
     );
-
 
     if (!data || !data.hotel) {
         return null;
@@ -71,22 +72,21 @@ export default function Page({ params }: PageProps) {
                         {hotel.address}
                     </p>
                     <p className="text-gray-600 text-sm mb-4">ID: {hotel.id}</p>
-                  
                 </div>
                 {reviews && <HotelReviewList reviews={reviews} />}
                 <ReviewModal
+                    refetchReviews={refetchReviews}
                     hotel={hotel}
                     onClose={() => setReviewModal(false)}
                     isOpen={reviewModal}
                 />
-              
+
                 <button
-                        onClick={() => setReviewModal(true)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                        Dodaj komentarz
-                    </button>
-               
+                    onClick={() => setReviewModal(true)}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Dodaj komentarz
+                </button>
             </div>
         </Container>
     );

@@ -56,7 +56,7 @@ const handler = NextAuth({
                 if (!arePasswordEqual) {
                     return null;
                 }
-                
+
                 return userByEmail.data.account;
             },
         }),
