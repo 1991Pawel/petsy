@@ -38,7 +38,7 @@ export default function Page({ params }: PageProps) {
         }
     );
 
-    if (!data || !data.hotel) {
+    if (!data) {
         return null;
     }
     const hotel = data.hotel;
@@ -56,22 +56,24 @@ export default function Page({ params }: PageProps) {
             <div className="max-w-xl mx-auto">
                 <div className="flex justify-center">
                     <img
-                        src={hotel.image?.url}
+                        src={hotel?.image?.url}
                         alt="Hotel Image"
                         className="w-full h-96 object-cover"
                     />
                 </div>
                 <div className="px-6 py-4">
                     <h2 className="text-3xl font-semibold mb-2">
-                        {hotel.name}
+                        {hotel?.name}
                     </h2>
                     <p className="text-gray-700 text-lg mb-4">
-                        {hotel.description}
+                        {hotel?.description}
                     </p>
                     <p className="text-gray-600 text-sm mb-2">
-                        {hotel.address}
+                        {hotel?.address}
                     </p>
-                    <p className="text-gray-600 text-sm mb-4">ID: {hotel.id}</p>
+                    <p className="text-gray-600 text-sm mb-4">
+                        ID: {hotel?.id}
+                    </p>
                 </div>
                 {reviews && <HotelReviewList reviews={reviews} />}
                 <ReviewModal
