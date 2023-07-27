@@ -1,6 +1,6 @@
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { Modal } from "../Modal/Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
 import { GetHotelByIdQuery } from "@/app/generated/graphql";
@@ -33,10 +33,12 @@ export const ReviewModal = ({
     const [stars, setStars] = useState(0);
     const [loading, setLoading] = useState(false);
     const session = useSession();
+    const showInput = stars > 0;
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm<FieldValues>({
         defaultValues: {
@@ -47,7 +49,13 @@ export const ReviewModal = ({
     const handleSetStars = (star: number) => {
         setStars(star);
     };
-    const addReview = async ({ review }: any) => {
+
+    const resetFormValues = () => {
+        setStars(0);
+        reset();
+    };
+
+    const onSubmit: SubmitHandler<FieldValues> = async data => {
         try {
             await apolloClient.mutate<CreateHotelReviewMutationVariables>({
                 mutation: CreateHotelReviewDocument,
@@ -55,7 +63,7 @@ export const ReviewModal = ({
                     review: {
                         rating: stars,
                         author: session.data?.user.email,
-                        content: review,
+                        content: data.review,
                         hotel: {
                             connect: {
                                 id: hotel.id,
@@ -68,31 +76,21 @@ export const ReviewModal = ({
             console.error("Wystąpił błąd podczas dodawania recenzji:", error);
         } finally {
             onClose();
-            setStars(0);
+            resetFormValues();
             refetchReviews();
         }
     };
 
-    // const onSubmit: SubmitHandler<FieldValues> = async data => {
-    //     try {
-    //         const response = await fetch("/api/signup", {
-    //             method: "POST",
-    //             body: JSON.stringify({
-    //                 data,
-    //             }),
-    //         });
-    //         if (!response.ok) {
-    //             alert("Coś poszło nie tak");
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
     return (
-        <Modal onClose={onClose} isOpen={isOpen}>
+        <Modal
+            onClose={() => {
+                onClose();
+                resetFormValues();
+            }}
+            isOpen={isOpen}
+        >
             <form
-                onSubmit={handleSubmit(addReview)}
+                onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col flex-colrounded-t justify-center relative  w-full"
             >
                 <div className="p-6 border-b-[1px]">
@@ -100,25 +98,30 @@ export const ReviewModal = ({
                 </div>
 
                 <div className="p-6">
-                    <div className="mb-5">
-                        <Input
-                            id="review"
-                            label="Twój komentarz"
-                            disabled={loading}
-                            errors={errors}
-                            register={register}
-                            required
+                    <p className="text-center">twoja ocena</p>
+                    <div className="flex items-center justify-center mb-2">
+                        <ReviewStars
+                            handleSetStars={handleSetStars}
+                            rating={stars}
                         />
                     </div>
-                    twoja ocena
-                    <ReviewStars
-                        handleSetStars={handleSetStars}
-                        rating={stars}
-                    />
+
+                    {showInput && (
+                        <div className="mb-5">
+                            <Input
+                                id="review"
+                                label="Twój komentarz"
+                                disabled={loading}
+                                errors={errors}
+                                register={register}
+                                required
+                            />
+                        </div>
+                    )}
                     <div className="w-full ">
                         <Button
-                            disabled={loading}
-                            onClick={handleSubmit(addReview)}
+                            disabled={loading || stars === 0}
+                            type="submit"
                             label={"Dodaj komentarz"}
                         />
                     </div>
