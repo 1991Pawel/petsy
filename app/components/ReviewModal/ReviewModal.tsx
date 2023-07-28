@@ -1,6 +1,6 @@
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { Modal } from "../Modal/Modal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
 import { GetHotelByIdQuery } from "@/app/generated/graphql";
