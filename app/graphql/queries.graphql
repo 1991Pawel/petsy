@@ -44,15 +44,22 @@ fragment reviewContent on Review {
     rating
     id
     author
-    creationDate
+    createdAt
 }
 
 query GetReviewsForHotelID($id: ID!) {
-    hotels(where: { id: $id }) {
+    hotel(where: { id: $id }, stage: DRAFT) {
         id
         name
         review {
-            ...reviewContent
+            ... on Review {
+                id
+                createdAt
+                content
+                author
+                publishedAt
+                rating
+            }
         }
     }
 }
