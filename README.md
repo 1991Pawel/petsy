@@ -1,20 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Petsy Project
+
+Welcome to My  Project! This repository showcases my journey in learning various technologies and tools within the development ecosystem.
+
+## Features
+
+- 🐶 **Husky**: I've learned to utilize Husky for setting up Git hooks and automating tasks in my workflow.
+
+- 🎉 **RTL (Right-to-Left)**: This project demonstrates my understanding of RTL support in UI development, ensuring a seamless experience for languages that read from right to left.
+
+- 🌐 **Basic GraphQL**: I've taken the first steps into the world of GraphQL, enabling more efficient and flexible data querying in my applications.
 
 ## Getting Started
 
-First, run the development server:
+This is a Next.js project bootstrapped with create-next-app.
 
-```bash
+To start the development server, run the following command:
+
+```sh
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
